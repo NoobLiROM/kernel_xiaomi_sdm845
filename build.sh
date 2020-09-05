@@ -3,6 +3,8 @@ clang_path="${HOME}/cbl/bin/clang"
 gcc_path="${HOME}/cbl/bin/aarch64-linux-gnu-"
 gcc_32_path="${HOME}/cbl/bin/arm-linux-gnueabi-"
 
+timedatectl set-timezone Asia/Shanghai
+
 source=`pwd`
 START=$(date +"%s")
 
@@ -78,7 +80,23 @@ mkzip (){
 	cd ${HOME}
 	cd $source
 	print "All done.Find it at ${HOME}/$zipname" green
-	OneDriveUploader  -c ~/derp/auth.json -t 32 -s "${HOME}/$zipname" -r "Share/Xiaomi-Mi8-ROM/ALiKernel/"
+	ftp_upload
+}
+
+ftp_upload(){
+cd ${HOME}
+ftp -v -n ${ftp_server}<<EOF
+	user ${ftp_username} ${ftp_pwd}
+	passive
+    binary
+    lcd ${HOME}
+    mkdir ${date}
+    cd ${date}
+    prompt
+    mput *Li-Kernel*.zip
+    bye
+EOF
+    echo "Ftp uploading done!"
 }
 
 ./prepare.sh
