@@ -12,12 +12,10 @@ steps:
   - name: setup&build
     image: ubuntu:latest
     environment:
-      ftp_server:
-        from_secret: ftp_server
-      ftp_username:
-        from_secret: ftp_username
-      ftp_pwd:
-        from_secret: ftp_pwd
+      bot_token:
+        from_secret: bot_token
+      chat_id:
+        from_secret: chat_id
     commands:
       - export HOME=/drone
       - ./build.sh

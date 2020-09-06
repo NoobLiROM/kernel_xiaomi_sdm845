@@ -80,23 +80,12 @@ mkzip (){
 	cd ${HOME}
 	cd $source
 	print "All done.Find it at ${HOME}/$zipname" green
-	ftp_upload
+	tg_upload
 }
 
-ftp_upload(){
+tg_upload(){
 cd ${HOME}
-ftp -v -n ${ftp_server}<<EOF
-	user ${ftp_username} ${ftp_pwd}
-	passive
-    binary
-    lcd ${HOME}
-    mkdir ${date}
-    cd ${date}
-    prompt
-    mput *Li-Kernel*.zip
-    bye
-EOF
-    echo "Ftp uploading done!"
+curl -s https://api.telegram.org/bot"${bot_token}"/sendDocument -F document=@"${zipname}" -F chat_id="${chat_id}"
 }
 
 ./prepare.sh
