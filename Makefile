@@ -1270,11 +1270,7 @@ endef
 
 define filechk_version.h
 	(echo \#define LINUX_VERSION_CODE $(shell                         \
-	if [ $(SUBLEVEL) -gt 255 ]; then                                  \
-	expr $(VERSION) \* 65536 + 0$(PATCHLEVEL) \* 256 + 0255;          \
-	else                                                              \
-	expr $(VERSION) \* 65536 + 0$(PATCHLEVEL) \* 256 + 0$(SUBLEVEL);  \
-	fi);                                                              \
+	expr $(VERSION) \* 65536 + 0$(PATCHLEVEL) \* 256 + 0$(SUBLEVEL)); \
 	echo '#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))';)
 endef
 
